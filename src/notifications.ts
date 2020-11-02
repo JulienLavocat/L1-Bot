@@ -1,0 +1,21 @@
+import { Event, events } from "./events";
+import { DateTime, Interval } from 'luxon';
+import { broadcast } from './discord/bot';
+
+let queue: Event[];
+
+export function initEvents() {
+
+}
+
+export function checkForEvents() {
+	console.log("Checking events");
+
+	const interval = Interval.fromDateTimes(DateTime.utc(), DateTime.utc().plus({minutes: 5}));
+	const filtered = events.filter(e => interval.contains(e.startTime) && !e.sent);
+
+	for (const event of filtered) {
+		broadcast("NotificationsCours", "Un cours commence !", event.toNotification());
+		event.sent = true;
+	}
+}
