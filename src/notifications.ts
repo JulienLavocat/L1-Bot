@@ -9,8 +9,6 @@ export function initEvents() {
 }
 
 export function checkForEvents() {
-	console.log("Checking events");
-
 	const interval = Interval.fromDateTimes(DateTime.utc(), DateTime.utc().plus({minutes: 5}));
 	const filtered = events.filter(e => interval.contains(e.startTime) && !e.sent);
 
