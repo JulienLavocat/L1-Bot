@@ -1,9 +1,10 @@
 import { EmbedFieldData, MessageEmbed } from "discord.js";
 import * as admin from "firebase-admin";
 import { DateTime } from "luxon";
+import { zoomLinks } from './zoomLinks';
 
 let events: Event[];
-const imgRefs: {[key: string]: string} = {
+const imgRefs: { [key: string]: string } = {
 	"4TPV101U": "chemistry.png",
 	"4TPV102U": "mathematics.png",
 	"4TPV103U": "physics.png",
@@ -11,8 +12,8 @@ const imgRefs: {[key: string]: string} = {
 	"4TPV105U": "biology.png",
 	"4TPV106U": "chemistry-work.png",
 	"4TPV107U": "biology-challenges.png",
-	"4TPV108U": "english.png"
-}
+	"4TPV108U": "english.png",
+};
 
 admin.initializeApp({
 	credential: admin.credential.applicationDefault(),
@@ -51,24 +52,24 @@ export class Event {
 		this.staff = obj.staff;
 		this.sent = false;
 
-		const split: string[] = obj.module.replace(/\s\s+/g, ' ').split(" ");
-		if(split[0].startsWith("4TPV")) {
-
+		const split: string[] = obj.module.replace(/\s\s+/g, " ").split(" ");
+		if (split[0].startsWith("4TPV")) {
 			this.code = split[0];
 			this.module = split.slice(1).join(" ").trim();
-
 		} else {
-
 			this.module = obj.module;
 			this.code = "";
-
 		}
 
 		this.img = imgRefs[this.code] || "";
 	}
 
 	getHours() {
-		return this.startTime.toFormat("HH:mm") + " - " + this.endTime.toFormat("HH:mm");
+		return (
+			this.startTime.toFormat("HH:mm") +
+			" - " +
+			this.endTime.toFormat("HH:mm")
+		);
 	}
 	getDate() {
 		return this.startTime.toFormat("dd/MM/yyyy");
@@ -81,11 +82,17 @@ export class Event {
 		return {
 			name: this.getHours(),
 			value: `${this.module} (${this.code})`,
-		}
+		};
 	}
 	toNotification() {
+
+		const zoom = zoomLinks[this.code][this.category];
+
 		return new MessageEmbed()
-			.addField(this.getHours(), this.module)
+			.setColor("AQUA")
+			.setDescription(`**${this.getHours()}**\n${this.module}`)
+			//.addField(this.getHours(), this.module)
+			.addFields(zoom ? [{name: "Lien Zoom", value: zoom}] : [])
 			.attachFiles(["./assets/" + this.img])
 			.setThumbnail("attachment://" + this.img);
 	}

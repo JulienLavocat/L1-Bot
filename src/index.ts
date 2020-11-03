@@ -3,13 +3,12 @@ config();
 
 import { connect } from './discord/bot';
 import { events, loadEvents } from "./events";
-import { checkForEvents, initEvents } from './notifications';
+import { checkForEvents } from './notifications';
 
 
 async function start() {
 	await loadEvents();
 	await connect();
-	initEvents();
 	setInterval(() => checkForEvents(), 60000);
 }
 
