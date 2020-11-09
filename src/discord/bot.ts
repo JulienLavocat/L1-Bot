@@ -33,8 +33,8 @@ client.on("message", (m) => {
 				new Event({
 					startTime: DateTime.utc().plus({ minute: 1 }),
 					endTime: DateTime.utc().plus({ hour: 1 }),
-					module: "4TPV104U Test event",
-					category: "Cours",
+					module: "4TPV101U Test event",
+					category: "Cours/TD",
 				}).toNotification()
 			);
 			break;

@@ -1,5 +1,7 @@
 export const zoomLinks: {[key: string]: {[key: string]: string}} = {
-	"4TPV101U": {},
+	"4TPV101U": {
+		"Cours/TD": "https://u-bordeaux-fr.zoom.us/j/83681356486?pwd=VUdaazB4NGNxTk9uZWY1eTd2TEY5QT09"
+	},
 	"4TPV102U": {
 		"Cours/TD": "https://moodle1.u-bordeaux.fr/mod/zoom/view.php?id=279181"
 	},
